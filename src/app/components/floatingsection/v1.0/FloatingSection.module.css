@@ -1,0 +1,29 @@
+.sectionFloatButton {
+    position: fixed;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    position: relative;
+    height: 56px;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border: 1px solid #DEDEDF;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.icon {
+    display: block;
+    width: 38px;
+    height: 38px;
+}
+
+.roundedCircle {
+    border-radius: 50% !important;
+}

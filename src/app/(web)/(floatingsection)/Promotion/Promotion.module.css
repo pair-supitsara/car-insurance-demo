@@ -1,0 +1,13 @@
+.decimallist {
+    counter-reset: section 0; /* เริ่มที่ 2 */
+    list-style: none;
+    padding-left: .5rem;
+}
+
+.decimallist > li {
+    counter-increment: section;
+}
+
+.decimallist > li::before {
+    content: "2." counter(section) " ";
+}

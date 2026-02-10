@@ -1,26 +1,95 @@
-@import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  font-size: 14px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --blue: #0050A0;
+  --lightblue: #86b7fe;
+  --white: #ffffff;
+  --red: rgb(218, 31, 31);
+  --green: #00B900;
+  --gray: rgb(237, 241, 243);
+  --lightgray: rgba(235, 235, 235, 0.945);
+  --yellow: #FFCC00;
+  --transparent: rgba(255, 255, 255, 0);
+  --black: black;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Sarabun", sans-serif !important;
+}
+
+.bg-blue {
+  background-color: var(--blue) !important;
+}
+
+.bg-red {
+  background-color: var(--red) !important;
+}
+
+.bg-green {
+  background-color: var(--green) !important;
+}
+
+.bg-yellow {
+  background-color: var(--yellow) !important;
+}
+
+.bg-gray {
+  background-color: var(--gray) !important;
+}
+
+.bg-lightblue {
+  background-color: var(--lightblue) !important;
+}
+
+.text-red {
+  color: var(--red);
+}
+
+.text-info {
+  color: #02adef !important;
+}
+
+.text-blue {
+  color: #003377 !important;
+}
+
+.appointTab {
+  background-color: var(--transparent) !important;
+  color: var(--yellow) !important;
+  border-width: 2px;
+}
+.appointTab.active {
+  background-color: var(--yellow) !important;
+  color: var(--black) !important;
+}
+
+.cancelTab {
+  background-color: var(--transparent) !important;
+  color: var(--red) !important;
+}
+.cancelTab.active {
+  background-color: var(--red) !important;
+  color: var(--white) !important;
+}
+
+.buyTab {
+  background-color: var(--transparent) !important;
+  color: var(--green) !important;
+}
+.buyTab.active {
+  background-color: var(--green) !important;
+  color: var(--white) !important;
+}
+
+.plainTab {
+  color: var(--white) !important;
+}
+.plainTab.active {
+  color: var(--black) !important;
 }
