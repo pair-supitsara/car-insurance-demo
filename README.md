@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Installation
+
+First, Check on node version, choose node.js version > 20.9
+
+```bash
+nvs
+```
+
+Install Project
+```bash
+npm install
+# or
+npm i
+```
 
 ## Getting Started
 
