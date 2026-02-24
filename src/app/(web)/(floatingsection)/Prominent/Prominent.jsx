@@ -1,6 +1,5 @@
 'use client'
-
-import Styles from './Prominent.module.css'
+import Image from "next/image";
 
 const images = [
     "/assets/images/prominent/bki.jpg",
@@ -18,11 +17,19 @@ const images = [
 ];
 
 export default function Prominent({ }) {
-
+    const baseurl = process.env.NEXT_PUBLIC_BASE_PATH
     return (
         <div className="boxProminent">
             {images.map((src, index) => (
-                <img key={index} src={src} alt={`image-${index}`} className={Styles.imag}></img>
+                <Image 
+                    key={index} 
+                    src={`${baseurl}${src}`} 
+                    alt={`image-${index}`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: "100%", height: "auto" }}
+                />
             ))}
         </div>
     );

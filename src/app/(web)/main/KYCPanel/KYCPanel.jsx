@@ -1,9 +1,9 @@
 'use client'
 import { useSelector, useDispatch } from 'react-redux'
 
-import Input from '../../../components/Input/v1.0/Input'
-import Card from '../../../components/Card/v1.0/Card'
-import Button from '../../../components/Button/v1.0/Button'
+import Input from '@/app/components/Input/v1.0/Input'
+import Card from '@/app/components/Card/v1.0/Card'
+import Button from '@/app/components/Button/v1.0/Button'
 
 export default function KYCPanel() {
     const dispatch = useDispatch()

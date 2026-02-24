@@ -3,13 +3,14 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
-import fnPostAPI from '../../../../services/fetch.js'
-import { fnDisplayDateinTH } from '../../../../utils/helper.js'
+import fnPostAPI from '@/services/fetch.js'
+import { fnDisplayDateinTH } from '@/utils/helper.js'
+import { fnAPIPostProxy, fnApiNodeRedPostDynamicUrl } from '@/utils/@lib/helper.js'
 
-import Input from '../../../components/Input/v1.0/Input'
-import Card from '../../../components/Card/v1.0/Card'
-import NavigationCard from '../../../components/NavigationCard/v1.0/NavigationCard'
-import RadioInput from '../../../components/RadioInput/v1.0/RadioInput'
+import Input from '@/app/components/Input/v1.0/Input.jsx'
+import Card from '@/app/components/Card/v1.0/Card.jsx'
+import NavigationCard from '@/app/components/NavigationCard/v1.0/NavigationCard.jsx'
+import RadioInput from '@/app/components/RadioInput/v1.0/RadioInput.jsx'
 
 const panelComponents = [
     { name: "ประวัติการติดต่อ", panelname: "history", component: <h5>ประวัติการติดต่อ</h5>},
@@ -20,33 +21,41 @@ export default function MainPanel() {
   const personal = useSelector(s => s.customer.personal)
   const carinfo = useSelector(s => s.customer.carinfo)
   const { panels } = useSelector(s => s.ui.panelstack)
+  const token = useSelector(s => s.dynamicurl.token)
+  const dynamicurl = useSelector(s => s.dynamicurl.dynamicurl)
+  const keys = useSelector(s => s.dynamicurl.keys)
+
   const dispatch = useDispatch()
   const fnShowPanels = (name) => dispatch({ type: 'ui/fnShowPanels', payload: { name: name} })
   const fnHidePanels = (name) => dispatch({ type: 'ui/fnHidePanels', payload: { name: name} })
   const fnSetInfo = (obj) => dispatch({ type: 'customer/setinfo', payload: obj })
   const fnSetCarInfo = (obj) => dispatch({ type: 'customer/setcarinfo', payload: obj })
+  const setDynamicUrl = (obj) => dispatch({ type: 'dynamicurl/setDynamicUrl', payload: obj })
 
   useEffect(() => { /* fetch only when first load..  */
-    (async () => {
-      const res = await fnPostAPI({ 
-        url: 'http://192.168.3.251:4200/api/carinsurance/v1.0/fnGetallcaryear',
-        method: 'POST', 
-        payload: { 
-          userId: 123,
-          listTable: 'outbound_follow',
-          listID: '12400000001'
-        } 
-      })
-      /*fnSetInfo({
-        nameth: res.data[0]?.name
-      })
-      fnSetCarInfo({
-        caryear: res.data[0]?.year_car,
-        carband: res.data[0]?.brand,
-        carmodel: res.data[0]?.model,
-        expdate: (new Date(res.data[0]?.expdate)).toISOString() || null
-      })*/
-    }) ();
+    async function init() {
+      /* call api dynamic url */
+      let res2 = await fnApiNodeRedPostDynamicUrl('https://localhost:3000/', '3000')
+      const objDynamicurl = res2.result.data
+      setDynamicUrl(objDynamicurl)
+
+      /* call api dynamic url */
+      var data = {
+        timestamp: String(new Date().getTime())
+      }
+      if (objDynamicurl) {
+        const res = await fnAPIPostProxy(objDynamicurl.apis.apiproxy + '/proxy/v1.0', data, token, keys.psent.fnGetOptionAccountDept, "", function (err, res) {
+          if (err) {
+            console.log(err)
+          }
+          
+          console.log("fnGetOptionAccountDept")
+          console.log(res)
+        })
+      }
+    } 
+    
+    init();
   }, [])
 
   const handleChange = (e) => {
@@ -56,6 +65,7 @@ export default function MainPanel() {
     } else {
       dispatch(fnHidePanels('kycPanel'))
     }
+    console.log('dynamicurl click', dynamicurl)
   }
 
   return (<>

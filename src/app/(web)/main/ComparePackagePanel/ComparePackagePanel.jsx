@@ -1,7 +1,7 @@
 'use client'
 
-import Card from '../../../components/Card/v1.0/Card'
-import Accordion from '../../../components/Accordion/v1.0/Accordion'
+import Card from '@/app/components/Card/v1.0/Card'
+import Accordion from '@/app/components/Accordion/v1.0/Accordion'
 
 export default function ComparePackagePanel() {
 

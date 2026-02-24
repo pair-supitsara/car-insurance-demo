@@ -1,5 +1,5 @@
 {
-  "name": "my-first-next",
+  "name": "car-insurance-demo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,6 +26,7 @@
     "@types/react": "19.2.10",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "typescript": "5.9.3"
   }
 }

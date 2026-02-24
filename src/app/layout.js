@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Providers from './providers'
+import "@/app/globals.css";
+import Providers from '@/app/providers.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
 const geistSans = Geist({
@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "My-First-Next",
-  description: "My-First-Next",
+  title: "car-insurance-demo",
+  description: "car-insurance-demo",
 };
 
 

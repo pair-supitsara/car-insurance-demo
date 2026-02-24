@@ -1,9 +1,9 @@
 'use client'
 
-import Input from '../../../components/Input/v1.0/Input'
-import Card from '../../../components/Card/v1.0/Card'
-import Button from '../../../components/Button/v1.0/Button'
-import NavigationCard from '../../../components/NavigationCard/v1.0/NavigationCard'
+import Input from '@/app/components/Input/v1.0/Input'
+import Card from '@/app/components/Card/v1.0/Card'
+import Button from '@/app/components/Button/v1.0/Button'
+import NavigationCard from '@/app/components/NavigationCard/v1.0/NavigationCard'
 
 export default function ResultPanel() {
 
