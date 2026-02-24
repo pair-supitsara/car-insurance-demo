@@ -29,7 +29,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000/car-insurance-demo) with your browser to see the result.
+Open [http://localhost:3000/car-insurance-demo](http://localhost:3000/car-insurance-demo) with your browser to see the result.
 
 ## Build
 Build static file to /out folder
