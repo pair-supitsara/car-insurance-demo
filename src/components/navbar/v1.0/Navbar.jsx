@@ -38,9 +38,6 @@ export default function Navbar() {
                     <Link className="nav-link active" href="/" onClick={() => setOpen(false)}>
                         Home
                     </Link>
-                    <Link className="nav-link" href="/profile" onClick={() => setOpen(false)}>
-                        Profile
-                    </Link>
                     <li className="nav-item dropdown">
                         <button className="nav-link dropdown-toggle" onClick={toggleMenu} role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                         <ul className={`dropdown-menu ${open ? 'show' : ''}`}>
@@ -55,9 +52,6 @@ export default function Navbar() {
                             </Link>
                         </ul>
                     </li>
-                    <Link className="nav-link disabled" href="/disable" onClick={() => setOpen(false)}>
-                        Disabled
-                    </Link>
                 </ul>
                 <form className="d-flex" role="search">
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>

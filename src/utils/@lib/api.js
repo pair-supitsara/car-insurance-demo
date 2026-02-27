@@ -54,6 +54,61 @@ export async function fnAPIPostProxy(url, data, tokenAPI, keyAPI, isLocalhost, c
     }
 }
 
+export async function fnAPIGetProxy(url, data, tokenAPI, keyAPI, isLocalhost, callback) {
+    const json = { ...data, key: keyAPI }
+    const params = new URLSearchParams(json);
+    const baseUrl = `${url}?${params.toString()}`;
+    
+    if (isLocalhost) {
+        fetch(baseUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "checksum": fnCheckSum(json),
+                "Authorization": "Bearer " + tokenAPI,
+                "key": keyAPI,
+                "host_base_url": isLocalhost
+            }
+        })
+        .then(async (response) => {
+            const result = await response.json()
+
+            if (!response.ok) {
+                throw result
+            }
+            callback(null, result)
+        })
+        .catch((error) => {
+            console.error(error)
+            callback(error, null)
+        })
+
+    } else {
+        fetch(baseUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "checksum": fnCheckSum(json),
+                "Authorization": "Bearer " + tokenAPI,
+                "key": keyAPI
+            }
+        })
+        .then(async (response) => {
+            const result = await response.json()
+
+            if (!response.ok) {
+                throw result
+            }
+
+            callback(null, result)
+        })
+        .catch((error) => {
+            console.error(error)
+            callback(error, null)
+        })
+    }
+}
+
 /* Dynamic Url */
 /*
  *  input  : 
@@ -130,7 +185,7 @@ export async function fnApiNodeRedPostDynamicUrl(host, port, callback) {
 
     };
 
-    let res = await fetch(apiDynamicUrl.apiDynamicUrl, {
+    let response = await fetch(apiDynamicUrl.apiDynamicUrl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -139,7 +194,11 @@ export async function fnApiNodeRedPostDynamicUrl(host, port, callback) {
         },
         body: JSON.stringify(data).replace(/'/g, "\\'\\'")
     })
-    res = await res.json()
-    return res
+    let res = await response.json()
+    if (!response.ok) {
+        callback('', null)
+    } else {
+        callback(null, res)
+    }
 }
 /* Dynamic Url */

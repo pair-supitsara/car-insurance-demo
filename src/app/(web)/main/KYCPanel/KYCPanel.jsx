@@ -1,14 +1,22 @@
 'use client'
 import { useSelector, useDispatch } from 'react-redux'
+import { useKYCPanel } from "@/hooks/useKYCPanel.js"
 
-import Input from '@/app/components/Input/v1.0/Input'
-import Card from '@/app/components/Card/v1.0/Card'
-import Button from '@/app/components/Button/v1.0/Button'
+import Input from '@/components/Input/v1.0/Input'
+import Selector from '@/components/Selector/v1.0/Selector'
+import Card from '@/components/Card/v1.0/Card'
+import Button from '@/components/Button/v1.0/Button'
 
 export default function KYCPanel() {
     const dispatch = useDispatch()
     const fnShowPanels = (name) => dispatch({ type: 'ui/fnShowPanels', payload: { name: name } })
     
+    const { kycData, kycStatus } = useKYCPanel()
+    
+    if (kycStatus === 'error') {
+        alert('error')
+    }
+
     return (
     <>
         <div className='row mb-3' style={{ paddingRight: '5rem', paddingLeft: '1rem' }}>
@@ -52,6 +60,29 @@ export default function KYCPanel() {
                         <div className='col-6'>
                             <Input name="ประเภทรถ" id="customerTypeCar" type="text" isdisabled={true} col={6}
                             />
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-6'>
+                            <Input name="ปีนี้สนใจประกันประเภทไหนคะ" id="policyType" type="text" isdisabled={true} col={6} />
+                        </div>
+                        <div className='col-6'>
+                            <Input name="ประเภทการซ่อม" id="coverDate" type="insurGarageDealer" isdisabled={true} col={6} />
+                        </div>
+                        <div className='col-6'>
+                            <Selector 
+                                name="บริษัทประกันภัยเดิมคือบริษัทไหนคะ"
+                                id="insurBefore"
+                                options={ kycData }
+                                set_key_option="comp_id"
+                                set_value_option="comp_name_thai"
+                                defaultValue=""
+                                isdisabled={false}
+                                col={6}
+                            />
+                        </div>
+                        <div className='col-6'>
+                            <Input name="ปัญหาที่พบของบริษัทประกันเดิมคะ" id="claimProblem" type="text" isdisabled={true} col={6} />
                         </div>
                     </div>
                 </Card>

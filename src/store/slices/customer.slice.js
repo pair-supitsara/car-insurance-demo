@@ -3,11 +3,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    personal: {
-        nameth: null,
+    custprofile: {
+        
     },
-
-    carinfo: {
+    /*carinfo: {
         caryear: null,
         carband: null,
         cargroupmodel: null,
@@ -47,27 +46,21 @@ const initialState = {
         basesuminsure: null,
         tickcalculateinsurance: null,
         tickcalculatenewpackage: null
-    }
+    }*/
 }
 
 const customerSlice = createSlice({
     name: 'customer',
     initialState,
     reducers: {
-        setinfo(state, action) {
-            state.personal = {
-                ...state.personal,
-                ...action.payload
-            }
-        },
-        setcarinfo(state, action) {
-            state.carinfo = {
-                ...state.carinfo,
+        setcustprofile(state, action) {
+            state.custprofile = {
+                ...state.custprofile,
                 ...action.payload
             }
         }
     }
 })
 
-export const { setinfo, setcarinfo } = customerSlice.actions;
+export const { setcustprofile, setintromessage } = customerSlice.actions;
 export default customerSlice.reducer;

@@ -3,9 +3,9 @@
 import { useSelector } from 'react-redux'
 
 /* Component */
-import Navbar from '@/app/components/navbar/v1.0/Navbar'
-import Offcanvas from '@/app/components/offcanvas/v1.0/Offcanvas'
-import FloatingSection from '@/app/components/floatingsection/v1.0/FloatingSection'
+import Navbar from '@/components/navbar/v1.0/Navbar'
+import Offcanvas from '@/components/offcanvas/v1.0/Offcanvas'
+import FloatingSection from '@/components/floatingsection/v1.0/FloatingSection'
 /* Component */
 
 /* OffCanvas */
@@ -32,7 +32,6 @@ export default function Page() {
   return (
     <>
       <Navbar />
-
       <FloatingSection />
       <Offcanvas open={open} name={name}>
         {name === "promotion" && <Promotion />}

@@ -5,7 +5,7 @@ export function fnDisplayDateinTH(date) {
 
     date = new Date(date);
     
-    return ('0').concat(date.getDay()).slice(-2) 
-            + '/' + ('0').concat(date.getMonth()).slice(-2) 
+    return ('0').concat(date.getDate()).slice(-2) 
+            + '/' + ('0').concat(date.getMonth()+1).slice(-2) 
             + '/' + (date.getFullYear() + 543);
 }
