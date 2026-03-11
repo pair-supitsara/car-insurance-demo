@@ -1,111 +1,132 @@
 import { fnCheckSum } from '@/utils/@lib/checksum.js'
 
-export async function fnAPIPostProxy(url, data, tokenAPI, keyAPI, isLocalhost, callback) {
-    if (isLocalhost) {
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "checksum": fnCheckSum(data),
-                "Authorization": "Bearer " + tokenAPI,
-                "key": keyAPI,
-                "host_base_url": isLocalhost
-            },
-            body: JSON.stringify(data).replace(/'/g, "\\'\\'")
-        })
-        .then(async (response) => {
-            const result = await response.json()
+export async function fnAPIPostProxy(url, data, tokenAPI, keyAPI, isLocalhost) {
+    try {
+        let response;
+        if (isLocalhost) {
+            response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "checksum": fnCheckSum(data),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI,
+                    "host_base_url": isLocalhost
+                },
+                body: JSON.stringify(data).replace(/'/g, "\\'\\'")
+            })
 
-            if (!response.ok) {
-                throw result
-            }
+        } else {
+            response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "checksum": fnCheckSum(data),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI
+                },
+                body: JSON.stringify(data).replace(/'/g, "\\'\\'")
+            })
+        }
 
-            callback(null, result)
-        })
-        .catch((error) => {
-            console.error(error)
-            callback(error, null)
-        })
+        response = await response.json()
+        return response
 
-    } else {
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "checksum": fnCheckSum(data),
-                "Authorization": "Bearer " + tokenAPI,
-                "key": keyAPI
-            },
-            body: JSON.stringify(data).replace(/'/g, "\\'\\'")
-        })
-        .then(async (response) => {
-            const result = await response.json()
-
-            if (!response.ok) {
-                throw result
-            }
-
-            callback(null, result)
-        })
-        .catch((error) => {
-            console.error(error)
-            callback(error, null)
-        })
+    } catch (error) {
+        throw new Error(error)
     }
 }
 
-export async function fnAPIGetProxy(url, data, tokenAPI, keyAPI, isLocalhost, callback) {
+export async function fnAPIGetProxy(url, data, tokenAPI, keyAPI, isLocalhost) {
+    try {
+        const json = { ...data, key: keyAPI }
+        const params = new URLSearchParams(json);
+        const baseUrl = `${url}?${params.toString()}`;
+        let response;
+        if (isLocalhost) {
+            response = await fetch(baseUrl, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "checksum": fnCheckSum(json),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI,
+                    "host_base_url": isLocalhost
+                }
+            })
+
+        } else {
+            response = await fetch(baseUrl, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "checksum": fnCheckSum(json),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI
+                }
+            })
+        }
+
+        response = await response.json()
+        return response
+
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+
+function fnConcatValueToString(obj) {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [key, String(value)])
+    );
+}
+
+export async function fnSplitKongGetMethod(url, data, tokenAPI, keyAPI, isLocalhost) {
+    if (url == "http://192.168.0.94:4030/proxy/v1.0") {
+		url = "http://192.168.0.95:8000/prod/" + endpoint + keyAPI
+	} 
+	if (data) {
+		data = fnConcatValueToString(data)
+	}
     const json = { ...data, key: keyAPI }
     const params = new URLSearchParams(json);
     const baseUrl = `${url}?${params.toString()}`;
-    
-    if (isLocalhost) {
-        fetch(baseUrl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "checksum": fnCheckSum(json),
-                "Authorization": "Bearer " + tokenAPI,
-                "key": keyAPI,
-                "host_base_url": isLocalhost
-            }
-        })
-        .then(async (response) => {
-            const result = await response.json()
+    try {
+        let response;
+        if (isLocalhost) {
+            response = await fetch(baseUrl, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "checksum": fnCheckSum(json),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI,
+                    "host_base_url": isLocalhost
+                }
+            })
 
-            if (!response.ok) {
-                throw result
-            }
-            callback(null, result)
-        })
-        .catch((error) => {
-            console.error(error)
-            callback(error, null)
-        })
+        } else {
+            response = await fetch(baseUrl, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "checksum": fnCheckSum(json),
+                    "Authorization": "Bearer " + tokenAPI,
+                    "key": keyAPI
+                }
+            })
+        }
 
-    } else {
-        fetch(baseUrl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "checksum": fnCheckSum(json),
-                "Authorization": "Bearer " + tokenAPI,
-                "key": keyAPI
-            }
-        })
-        .then(async (response) => {
-            const result = await response.json()
+        response = await response.json()
+        return response
 
-            if (!response.ok) {
-                throw result
-            }
-
-            callback(null, result)
-        })
-        .catch((error) => {
-            console.error(error)
-            callback(error, null)
-        })
+    } catch (error) {
+        throw new Error(error)
     }
 }
 
@@ -174,31 +195,33 @@ function fnApiDynamicUrl(confHost, confPort) {
         callback(error, null)
     })
 }*/
-export async function fnApiNodeRedPostDynamicUrl(host, port, callback) {
-    const apiDynamicUrl = fnApiDynamicUrl(host, port)
-    console.log('apiDynamicUrl')
-    console.log(apiDynamicUrl)
-    const data = {
-        host: host.replace('http:', 'https:'),
-        urllist: ['urlclassic03', 'urldotnet03', 'urlclassic53', 'urldotnet53', 'urldotnetonline', 'urlclassic33', 'urlwordpress'],
-        apilist: ['api', 'apibackend', 'apinavision', 'apibackendonline', 'apiproxy']
+export async function fnApiNodeRedPostDynamicUrl(host, port) {
+    try {
+        const apiDynamicUrl = fnApiDynamicUrl(host, port)
+        /*console.log('apiDynamicUrl')
+        console.log(apiDynamicUrl)*/
+        const data = {
+            host: host.replace('http:', 'https:'),
+            urllist: ['urlclassic03', 'urldotnet03', 'urlclassic53', 'urldotnet53', 'urldotnetonline', 'urlclassic33', 'urlwordpress'],
+            apilist: ['api', 'apibackend', 'apinavision', 'apibackendonline', 'apiproxy']
 
-    };
+        };
 
-    let response = await fetch(apiDynamicUrl.apiDynamicUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            "dataType": "json",
-            "Authorization": "Bearer " + apiDynamicUrl.token
-        },
-        body: JSON.stringify(data).replace(/'/g, "\\'\\'")
-    })
-    let res = await response.json()
-    if (!response.ok) {
-        callback('', null)
-    } else {
-        callback(null, res)
+        let response = await fetch(apiDynamicUrl.apiDynamicUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "dataType": "json",
+                "Authorization": "Bearer " + apiDynamicUrl.token
+            },
+            body: JSON.stringify(data).replace(/'/g, "\\'\\'")
+        })
+
+        const res = await response.json()
+        return res
+
+    } catch (error) {
+        throw new Error(error)
     }
 }
 /* Dynamic Url */

@@ -10,21 +10,28 @@ import RadioInput from '@/components/RadioInput/v1.0/RadioInput.jsx'
 
 import { useMainPanel } from '@/hooks/useMainPanel.js'
 
-const panelComponents = [
-    { name: "ประวัติการติดต่อ", panelname: "history", component: <h5>ประวัติการติดต่อ</h5>},
-    { name: "รายการโอนโค๊ด", panelname: "tranfertranscode", component: <h5>รายการโอนโค๊ด</h5>}
-];
+
 
 export default function MainPanel() {
-
+  
   const dispatch = useDispatch()
   const fnShowPanels = (name) => dispatch({ type: 'ui/fnShowPanels', payload: { name: name} })
   const fnHidePanels = (name) => dispatch({ type: 'ui/fnHidePanels', payload: { name: name} })
-  const customer = useSelector(s => s.customer)
+  // const customer = useSelector(s => s.customer)
   const { panels } = useSelector(s => s.ui.panelstack)
-  const token = useSelector(s => s.dynamicurl.token)
 
-  const { introMessage, mainStatus } = useMainPanel()
+  const { 
+    introMessage,
+    custProfile,
+    contactHistory,
+    mainStatus 
+  } = useMainPanel()
+
+  const panelComponents = [
+      { name: "ประวัติการติดต่อ", panelname: "history", component: contactHistory || <h5>ประวัติการติดต่อ</h5>},
+      { name: "รายการโอนโค๊ด", panelname: "tranfertranscode", component: <h5>รายการโอนโค๊ด</h5>}
+  ];
+
   if (!mainStatus) {
     return <div>error</div>
   }
@@ -45,21 +52,21 @@ export default function MainPanel() {
               <Card name="ข้อมูลลูกค้า" color={'blue'}>
                   <div className='row'>
                     <Input name="ชื่อ" id="customername" 
-                          value={`${customer.custprofile.customerName} `} 
+                          value={`${custProfile.customerName} `} 
                           isdisabled={true} col={6} />
 
                     <Input name="ระดับลูกค้า" id="rankcustomer" 
                           isdisabled={true} col={6} />
                     
                     <Input name="รถยนต์" id="carband" 
-                          value={`ยี่ห้อ ${customer.custprofile.carBrand} รุ่น ${customer.custprofile.carModel || '-'} ปี ${customer.custprofile.carYear}`} 
+                          value={`ยี่ห้อ ${custProfile.carBrand} รุ่น ${custProfile.carModel || '-'} ปี ${custProfile.carYear}`} 
                           isdisabled={true} col={6} />
 
                     <Input name="" id="customername"
                           isdisabled={true} col={6} />
 
                     <Input name="ประกันหมดอายุ" id="insureExpireDate" 
-                          value={fnDisplayDateinTH(customer.custprofile.expDate) || '-'} 
+                          value={fnDisplayDateinTH(custProfile.expDate) || '-'} 
                           isdisabled={true} col={6} />
                   </div>
               </Card>
@@ -74,7 +81,7 @@ export default function MainPanel() {
             <div className="col-6 p-2">
                 <Card name="แนะนำตัว">
                 <p>
-                  { introMessage.replace(/<[^>]+>/g, "") }
+                  { introMessage.length > 0 && introMessage[0].message.replace(/<[^>]+>/g, "") }
                 </p>
                 </Card>
             </div>

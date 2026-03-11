@@ -16,6 +16,7 @@ const dynamicurlSlice = createSlice({
                 ...state.dynamicurl,
                 ...action.payload 
             }
+            state.dynamicurl.apis.apiproxy = action.payload?.apis?.apiproxy + '/proxy/v1.0'
         }
     }
 })
